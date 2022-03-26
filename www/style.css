@@ -1,0 +1,26 @@
+.bg-primary {
+    background-color: #1A374D!important;
+}
+
+.bg-secondary {
+    background-color: #406882!important;
+}
+
+.btn-close-light {
+    background-color: white;
+}
+
+.input-group {
+    width: 60%;
+}
+
+#dragdrop {
+    height: 10rem;
+    width: 25rem;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#drop-area.highlight {
+    border-color: purple!important;
+}
