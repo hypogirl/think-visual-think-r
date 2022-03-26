@@ -1,1 +1,1 @@
-# think-visual-think-r
+# Think Visual :: Think R
