@@ -15,25 +15,26 @@ require(magick)
 
 server <- function(input, output){
   
+  observeEvent(
+    eventExpr = input[["upload_button"]],
+    handlerExpr = {
+  
 
   #csvfile <- read.csv(file="measles.csv", sep=",", header = TRUE)
+      
   
-  csvfile <- reactive({
-    inFile <- input$file1
-    if (is.null(inFile)) return(NULL)   
-    read.csv(inFile$datapath, as.is=T)
-  }) 
-  
-  if (is.null(csvfile)) return(NULL)
-  output$plot <- renderPlotly({
-    fig <- plot_ly(csvfile, x=~time, y=~measles, type = "scatter", mode="lines")
-    
-    fig <- fig %>%
-      layout(hovermode = "x unified")
-    
-  
-  })
-  
+      csvfile <- read.csv(input$file1$datapath, as.is=T)
+      
+      cols <- names(csvfile)
+      
+      output$plot <- renderPlotly({
+        fig <- plot_ly(csvfile, x=~csvfile[,1], y=~csvfile[,2], type = "scatter", mode="lines")
+        
+        fig <- fig %>%
+          layout(hovermode = "x unified", xaxis = list(title = cols[1]), yaxis = list (title = cols[2]))
+      
+      })
+    })
 }
 
 
@@ -43,8 +44,6 @@ server <- function(input, output){
 ui <- fluidPage(
   
   tags$div(class = "header", checked = NA,
-           tags$p("Ready to take the Shiny tutorial? If so"),
-           tags$a(href = "shiny.rstudio.com/tutorial", "Click Here!"),
            fileInput("file1", "Choose CSV File",
                      multiple = FALSE,
                      accept = c("text/csv",
@@ -52,8 +51,11 @@ ui <- fluidPage(
                                 ".csv"))
   ),
   
+  actionButton(
+    inputId = "upload_button",
+    label = "Upload"),
   
-  h4("Number of measles cases",align="center"),
+  h4("Plot output",align="center"),
   div(plotlyOutput("plot",width = "500px", height = "300px"), align = "center"),
 )
 
