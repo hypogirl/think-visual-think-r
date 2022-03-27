@@ -15,9 +15,14 @@ require(magick)
 
 server <- function(input, output){
   
-  includeScript(path = "www/main.js")
 
-  csvfile <- read.csv(file="measles.csv", sep=",", header = TRUE)
+  #csvfile <- read.csv(file="measles.csv", sep=",", header = TRUE)
+  
+  csvfile <- reactive({
+    inFile <- input$file1
+    if (is.null(inFile)) return(NULL)   
+    read.csv(inFile$datapath, as.is=T)
+  }) 
   
   output$plot <- renderPlotly({
     fig <- plot_ly(csvfile, x=~time, y=~measles, type = "scatter", mode="lines")
@@ -33,7 +38,30 @@ server <- function(input, output){
 
 
 # parte de html
+
+ui <- fluidPage(
+  
+  tags$div(class = "header", checked = NA,
+           tags$p("Ready to take the Shiny tutorial? If so"),
+           tags$a(href = "shiny.rstudio.com/tutorial", "Click Here!"),
+           fileInput("file1", "Choose CSV File",
+                     multiple = FALSE,
+                     accept = c("text/csv",
+                                "text/comma-separated-values,text/plain",
+                                ".csv"))
+  ),
+  
+  
+  h4("Number of measles cases",align="center"),
+  div(plotlyOutput("plot",width = "500px", height = "300px"), align = "center"),
+)
+
 shinyApp(ui = htmlTemplate("www/index.html"), server)
+
+
+
+
+shinyApp(ui, server)
 
 # 
 # animated_plot <- ggplot(m, aes(x = time, y = measles)) +
