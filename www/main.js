@@ -6,11 +6,12 @@ function importData(files) {
 }
 
 function readFile(file) {
-    Shiny.setInputValue("file", file);
     const fl = new FileReader();
+    const dataFile = document.getElementById('dataFile');
     fl.addEventListener("load", () => {
         // this will then display a text file
         console.log(fl.result);
+        dataFile.value = fl.result;
       }, false);
 
     if (file) fl.readAsText(file);
