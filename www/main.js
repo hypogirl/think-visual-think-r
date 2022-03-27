@@ -16,35 +16,37 @@ function readFile(file) {
 }
 
 ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, preventDefaults, false)
-  })
+    dropArea.addEventListener(eventName, preventDefaults, false);
+})
   
-  function preventDefaults (e) {
-    e.preventDefault()
-    e.stopPropagation()
-  }
+function preventDefaults (e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
 
-  ;['dragenter', 'dragover'].forEach(eventName => {
-    dropArea.addEventListener(eventName, highlight, false)
-  })
+;['dragenter', 'dragover'].forEach(eventName => {
+    dropArea.addEventListener(eventName, highlight, false);
+})
   
-  ;['dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, unhighlight, false)
-  })
+;['dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, unhighlight, false);
+})
   
-  function highlight(e) {
-    dropArea.classList.add('highlight')
-  }
+function highlight(e) {
+    dropArea.classList.add('highlight');
+    dropArea.innerHTML = "Drop the file to import it."
+}
   
-  function unhighlight(e) {
-    dropArea.classList.remove('highlight')
-  }
+function unhighlight(e) {
+    dropArea.classList.remove('highlight');
+    dropArea.innerHTML = '\t<input type="file" id="dataFile" onchange="importData(this.files)" style="display: none;">\n\t<label for="dataFile" style="display: block;"><i class="bi bi-upload"></i></label>\n\t<label for="dataFile" style="text-decoration: underline;">Choose a file</label> or drag it here.'
+}
 
-  dropArea.addEventListener('drop', handleDrop, false)
+dropArea.addEventListener('drop', handleDrop, false);
 
 function handleDrop(e) {
-  let dt = e.dataTransfer
-  let files = dt.files
+    let dt = e.dataTransfer;
+    let files = dt.files;
 
-  handleFiles(files)
+    readFile(files[0]);
 }
