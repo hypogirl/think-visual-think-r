@@ -32,14 +32,7 @@ server <- function(input, output){
 
 
 # parte de html
-ui <- fluidPage(
-  h4("Number of measles cases",align="center"),
-  div(plotlyOutput("plot",width = "500px", height = "300px"), align = "center"),
-)
-
-
-shinyApp(ui, server)
-
+shinyApp(ui = htmlTemplate("www/index.html"), server)
 
 # 
 # animated_plot <- ggplot(m, aes(x = time, y = measles)) +
