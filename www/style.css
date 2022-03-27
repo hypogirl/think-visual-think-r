@@ -1,0 +1,34 @@
+.bg-primary {
+    background-color: #1A374D!important;
+}
+
+.bg-secondary {
+    background-color: #406882!important;
+}
+
+.border-secondary {
+    background-color: #406882;
+}
+
+.btn-close-light {
+    background-color: white;
+}
+
+.input-group {
+    width: 60%;
+}
+
+#dragdrop {
+    height: 10rem;
+    width: 25rem;
+    display: table-cell;
+    vertical-align: middle;
+    transition: 0.5s;
+}
+
+#dragdrop.highlight {
+    border-style: dashed!important;
+    border-color: #1A374D!important;
+    background-color: #B1D0E0!important;
+    transition: 0.5s;
+}
