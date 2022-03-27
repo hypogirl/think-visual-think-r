@@ -24,6 +24,7 @@ server <- function(input, output){
     read.csv(inFile$datapath, as.is=T)
   }) 
   
+  if (is.null(csvfile)) return(NULL)
   output$plot <- renderPlotly({
     fig <- plot_ly(csvfile, x=~time, y=~measles, type = "scatter", mode="lines")
     
