@@ -12,9 +12,10 @@ require(ggplot2)
 require(gganimate)
 require(magick)
 
-setwd("C:/Users/Pedro Martins/Documents/Projeto/test")
 
 server <- function(input, output){
+  
+  includeScript(path = "www/main.js")
 
   csvfile <- read.csv(file="measles.csv", sep=",", header = TRUE)
   
