@@ -85,9 +85,40 @@ ui <- fluidPage(
             tags$link(
                 rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
             ),
-            tags$link(
-                rel="stylesheet", href="www/style.css"
-            )
+            tags$style(".bg-primary {
+    background-color: #1A374D!important;
+}
+
+.bg-secondary {
+    background-color: #406882!important;
+}
+
+.border-secondary {
+    background-color: #406882;
+}
+
+.btn-close-light {
+    background-color: white;
+}
+
+.input-group {
+    width: 60%;
+}
+
+#dragdrop {
+    height: 10rem;
+    width: 25rem;
+    display: table-cell;
+    vertical-align: middle;
+    transition: 0.5s;
+}
+
+#dragdrop.highlight {
+    border-style: dashed!important;
+    border-color: #1A374D!important;
+    background-color: #B1D0E0!important;
+    transition: 0.5s;
+}")
         ),
         tags$body(
             tags$nav(
@@ -99,13 +130,13 @@ ui <- fluidPage(
                         "Think Visual :: Think R"
                     ),
                     tags$button(
-                        class="navbar-toggler", type="button", data-bs-toggle="offcanvas", data-bs-target="#offcanvasNavbar", aria-controls="offcanvasNavbar",
+                        class="navbar-toggler", type="button",
                         tags$span (
                             class="navbar-toggler-icon"
                         )
                     ),
                     tags$div (
-                        class="offcanvas bg-secondary offcanvas-end", tabindex="-1", id="offcanvasNavbar", aria-labelledby="offcanvasNavbarLabel",
+                        class="offcanvas bg-secondary offcanvas-end", tabindex="-1", id="offcanvasNavbar",
                         tags$div(
                             class="offcanvas-header",
                             tags$h5(
@@ -113,7 +144,7 @@ ui <- fluidPage(
                                 "Think Visual :: Think R"
                             ),
                             tags$button(
-                                type="button", class="btn-close btn-close-light text-reset", data-bs-dismiss="offcanvas", aria-label="Close"
+                                type="button", class="btn-close btn-close-light text-reset"
                             )
                         ),
                         tags$div(
@@ -123,7 +154,7 @@ ui <- fluidPage(
                                 tags$li(
                                     class="nav-item",
                                     tags$a(
-                                        class="nav-link active", aria-current="page", href="index.html",
+                                        class="nav-link active", href="index.html",
                                         "Home"
                                     )
                                 ),
