@@ -1,22 +1,23 @@
 # adicionar install.package()
 
-library(shiny)
-library(modeldata)
-library(DAAG)
-library(ggplot2)
-library(plotly)
-library(devtools)
-library(RCurl)
-library(httr)
-library(magick)
-library(gganimate)
+install.packages(setdiff(c("pacman"), rownames(installed.packages())))  
+
+pacman::p_load(shiny, ggplot2, plotly, shinyjs)
+
+#library(shiny)
+#library(shinyjs)
+#library(modeldata)
+#library(DAAG)
+#library(ggplot2)
+#library(plotly)
+#library(devtools)
+#library(RCurl)
+#library(httr)
+#library(magick)
+#library(gganimate)
 
 # global variables
 csvfile <- NULL
-cols <- NULL
-xx <- NULL
-yy <- NULL
-x <- NULL; y <- NULL
 
 server <- function(input, output) {
     # upload button
@@ -25,14 +26,15 @@ server <- function(input, output) {
         handlerExpr = {
             csvfile <- read.csv(input$file1$datapath, as.is=T)
             cols <- names(csvfile)
+            
             insertUI (
                 selector = "#upload_button",
                 where = "afterEnd",
                 ui = tags$div("#coords",
-                    selectInput("x", "X:",
+                    selectInput("a", "X:",
                         cols
                     ),
-                    selectInput("y", "Y:",
+                    selectInput("b", "Y:",
                         cols
                     ),
                     actionButton(
@@ -51,9 +53,13 @@ server <- function(input, output) {
     observeEvent (
         eventExpr = input[["generate_button"]],
         handlerExpr = {
-            xx <<- x
-            yy <<- y
-            print(x)
+            xx <- input$x
+            yy <- input$y
+            csvfile <- data.frame(matrix(unlist(input$csvfile), nrow=length(input$csvfile), byrow=TRUE))
+            cols <- names(csvfile)
+            print(match(xx,cols))
+            print(match(1, cols))
+
             output$plot <- renderPlotly({
                 fig <- plot_ly(csvfile, x=~csvfile[,match(xx, cols)], y=~csvfile[,match(yy, cols)], type = "scatter", mode="lines")
                 fig <- fig %>%
@@ -113,6 +119,7 @@ ui <- fluidPage(
                         <input type="file" name="dataFile" id="dataFile" onchange="importData(this.files)" style="display: none;">
                         <label for="dataFile" style="display: block; cursor: pointer;"><i class="bi bi-upload"></i></label>
                         <label for="dataFile" style="text-decoration: underline;cursor: pointer;">Choose a file</label> or drag it here.
+                        <button class="button" id="buttontest">cona</button>
                     </div>
             <div class="col-7" id="plot"></div>
             </div>
@@ -141,12 +148,6 @@ ui <- fluidPage(
 
 shinyApp(ui, server)
 
-
-
-
-shinyApp(ui, server)
-
-# 
 # animated_plot <- ggplot(m, aes(x = time, y = measles)) +
 #   geom_line(size = 1, color = "blue") +
 #   transition_reveal(time) +

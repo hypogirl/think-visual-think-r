@@ -1,8 +1,20 @@
 const dropArea = document.getElementById('dragdrop');
+var fileContent;
 
 function importData(files) {
-    const input = document.getElementById("file-import");
     readFile(files[0]);
+}
+
+function convertToObject(fileStr) {
+    const cols = [...fileStr.matchAll(/\"(\w+)\"/g)];
+    const lines = [...fileStr.matchAll(/\w+,\w+/g)];
+    var table = new Array();
+    for (let i = 0; i < lines.length; i++) {
+        table[i] = new Object();
+        const line = lines[i][0].split(",");
+        for (let j = 0; j < cols.length; j++) table[i][cols[j][0]] = Number(line[j]);
+    }
+    return table;
 }
 
 function readFile(file) {
@@ -10,8 +22,8 @@ function readFile(file) {
     const dataFile = document.getElementById('dataFile');
     fl.addEventListener("load", () => {
         // this will then display a text file
+        fileContent = convertToObject(fl.result);
         console.log(fl.result);
-        dataFile.value = fl.result;
       }, false);
 
     if (file) fl.readAsText(file);
