@@ -32,3 +32,7 @@
     background-color: #B1D0E0!important;
     transition: 0.5s;
 }
+
+.axis-dropdown {
+    width: 200px;
+}

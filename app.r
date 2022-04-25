@@ -1,5 +1,3 @@
-# adicionar install.package()
-
 install.packages(setdiff(c("pacman"), rownames(installed.packages())))  
 
 pacman::p_load(shiny, ggplot2, plotly, shinyjs)
@@ -24,24 +22,35 @@ server <- function(input, output) {
     observeEvent(
         eventExpr = input[["upload_button"]],
         handlerExpr = {
-            csvfile <- read.csv(input$file1$datapath, as.is=T)
-            cols <- names(csvfile)
             
-            insertUI (
+            insertUI(
                 selector = "#upload_button",
                 where = "afterEnd",
-                ui = tags$div("#coords",
-                    selectInput("a", "X:",
-                        cols
-                    ),
-                    selectInput("b", "Y:",
-                        cols
-                    ),
+                ui = tags$div(HTML('<div id="axis_content">
+                        <div class="btn-group dropend d-block axis-dropdown">
+                            <button type="button" class="btn btn-secondary">
+                                Select X axis column:
+                            </button>
+                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden">Toggle Dropright</span>
+                            </button>
+                            <ul class="dropdown-menu"></ul>
+                        </div>
+                        <div class="btn-group dropend d-block axis-dropdown">
+                            <button type="button" class="btn btn-secondary">
+                                Select Y axis column:
+                            </button>
+                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden">Toggle Dropright</span>
+                            </button>
+                            <ul class="dropdown-menu"></ul>
+                        </div>
+                    </div>'),
                     actionButton(
                         inputId = "generate_button",
                         label = "Set axis"
                     )
-                ),
+                    ),
                 multiple = FALSE,
                 immediate = FALSE,
                 session = getDefaultReactiveDomain()
@@ -119,26 +128,17 @@ ui <- fluidPage(
                         <input type="file" name="dataFile" id="dataFile" onchange="importData(this.files)" style="display: none;">
                         <label for="dataFile" style="display: block; cursor: pointer;"><i class="bi bi-upload"></i></label>
                         <label for="dataFile" style="text-decoration: underline;cursor: pointer;">Choose a file</label> or drag it here.
-                        <button class="button" id="buttontest">cona</button>
                     </div>
             <div class="col-7" id="plot"></div>
             </div>
         </div>
     </div>
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="main.js"></script>
     <script src="jquerytest.js"></script>
 </body>
 </html>')
     ),
-        fileInput("file1", "Choose a CSV File",
-                    multiple = FALSE,
-                    accept = c("text/csv",
-                    "text/comma-separated-values,text/plain",
-                    ".csv")
-                ),
         actionButton(
                 inputId = "upload_button",
                 label = "Upload"),
@@ -172,7 +172,3 @@ shinyApp(ui, server)
 # animation <- animate(animated_plot, nframes=70, renderer=magick_renderer())
 # 
 # animation
-
-
-
-
